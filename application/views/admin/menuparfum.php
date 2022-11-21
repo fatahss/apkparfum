@@ -61,7 +61,7 @@
                     <?php foreach ($parfum as $r) : ?>
                     <tr>
                     <td><?= $r['nama_parfum']; ?></td>
-                        <td><?= $r['kategori']; ?></td>
+                        <td><?= $r['nama_kategori']; ?></td>
                         <td><?= $r['deskripsi']; ?></td>
                         <td>Rp. <?= number_format($r['harga_reseller'],2,',','.')?></td>
                         <td>Rp. <?= number_format($r['harga_distributor'],2,',','.')?></td>
@@ -104,10 +104,10 @@
                     <div class="form-group">
                         <label for="semester" class="text-gray-900">Kategori</label>
                         <br/>
-                        <label for="semester">Current : <?= $r['kategori']; ?></label>
+                        <label for="semester">Current : <?= $r['nama_kategori']; ?></label>
                         <select name="kategori" id="kategori" class="form-control  bg-dark text-light">
                             <?php foreach ($kategori as $m) : ?>
-                            <option value="<?= $m['nama_kategori']; ?>"><?= $m['nama_kategori']; ?></option>
+                            <option value="<?= $m['id']; ?>"><?= $m['nama_kategori']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -176,7 +176,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name" class="text-bold text-gray-900">Kategori:</label>
-                        <input type="text" class="form-control bg-dark text-light" id="nama_parfum" name="nama_parfum" placeholder="" value="<?= $r['kategori']; ?>"readonly>
+                        <input type="text" class="form-control bg-dark text-light" id="nama_parfum" name="nama_parfum" placeholder="" value="<?= $r['nama_kategori']; ?>"readonly>
                     </div>
                     <div class="form-group">
                         <label for="notelpon" class="text-gray-900">Deskripsi:</label>
@@ -265,7 +265,7 @@
                         <label for="semester">Kategori:</label>
                         <select name="kategori" id="kategori" class="form-control  bg-dark text-gray-100">
                             <?php foreach ($kategori as $m) : ?>
-                            <option value="<?= $m['nama_kategori']; ?>"><?= $m['nama_kategori']; ?></option>
+                            <option value="<?= $m['id']; ?>"><?= $m['nama_kategori']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

@@ -38,7 +38,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nomor Direct Selling</th>
-                        
+                        <th scope="col">Total Produk</th>
                         <th scope="col">Total</th>
                         <th scope="col">Tanggal</th>
                         <th scope="col">Action</th>
@@ -51,7 +51,7 @@
                     <?php foreach ($directsellinguser as $r) : ?>
                         <tr>
                             <td><a data-toggle="modal" data-target="#detailPoModal<?php echo $r['no_direct_selling']; ?>" href="#" class="btn text-info font-weight-bold "><?= $r['no_direct_selling']; ?></a></td>
-                           
+                            <td> <?= $r['total']?></td>
                             <td>Rp. <?= number_format($r['total'],0,',',',')?></td>
 
                             <td><?= date('d F Y (H:i)', $r['created_at']);  ?></td>
@@ -88,6 +88,10 @@
                                             <div class="form-group">
                                                 <label for="name">Nama Pembeli:</label>
                                                 <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['namapembeli']; ?>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Total Produk:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['total_product']; ?>" readonly>
                                             </div>
 
                                             <div class="form-group">

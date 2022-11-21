@@ -41,27 +41,6 @@
                                                 <label for="name">Nama Pembeli:</label>
                                                 <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $directsellinguser['namapembeli']; ?>" readonly>
                                             </div>
-
-                                            <div class="form-group">
-                                                <label for="name">Sub Total:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['sub_total'],0,',',',')?>" readonly>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">Ongkir:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['ongkir'],0,',',',')?>" readonly>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">Diskon:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['diskon'],0,',',',')?>" readonly>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name">Total:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['total'],0,',',',')?>" readonly>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="ijazah">Created at:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $directsellinguser['created_at']);  ?>" readonly>
-                                            </div>
                                             <table class="table-responsive">
                                             <table class="table table-striped" width="100%" cellspacing="0">
                                                 <thead class="thead-dark">
@@ -86,6 +65,32 @@
                                                     </tbody>
                                                 </table>
                                             </table>
+                                            <div class="form-group">
+                                                <label for="name">Total Produk:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $directsellinguser['total_product']; ?>" readonly>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">Sub Total:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['sub_total'],0,',',',')?>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Ongkir:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['ongkir'],0,',',',')?>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Diskon:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['diskon'],0,',',',')?>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name">Total:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($directsellinguser['total'],0,',',',')?>" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ijazah">Created at:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $directsellinguser['created_at']);  ?>" readonly>
+                                            </div>
+                                            
 
 
 

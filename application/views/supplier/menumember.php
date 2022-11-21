@@ -1,6 +1,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-   
+
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
@@ -11,9 +11,9 @@
 
             <?= $this->session->flashdata('message'); ?>
 
-            
 
-             <!--<form class="d-none d-sm-inline-block form-inline  navbar-search">
+
+            <!--<form class="d-none d-sm-inline-block form-inline  navbar-search">
            <div class="input-group">
             <div class="form-outline">
             <input id="search-focus" type="search" id="form1" class="form-control" />
@@ -23,59 +23,139 @@
             </button>
             </div>
         
-          </form>--> 
+          </form>-->
 
 
-          <div class="form-group" >
-           <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Nama..">
-       </div>
 
-         <div class="form-group" >
-        <a href="" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newSubMenuModal">Input Nilai Baru</a>
-        </div>
 
-<table id="myTable" class="table table-striped table-bordered table-sm " cellspacing="0"
-  width="100%">
-            
 
-           
-                <thead>
+
+            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+
+
+
+
+                <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Id</th>
                         <th scope="col">Nama Lengkap</th>
-                        <th scope="col">Kelas</th>
-                        <th scope="col">Nama Mata Pelajaran</th>
-                        <th scope="col ">Nilai Pengetahuan</th>
-                        <th scope="col">Nilai Keterampilan</th>
-                        <th scope="col">Nilai Akhir</th>
-                        <th scope="col">Predikat</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Email</th>
+                        <th scope="col ">Nomor Telepon</th>
+                        <th scope="col">Alamat</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
-                       
-                        
+
+
 
                     </tr>
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php foreach ($daftarnilai as $r) : ?>
-                    <tr>
-                        <th scope="row"><?= $i; ?></th>
-                        <td><?= $r['name']; ?></td>
-                        <td><?= $r['kelas']; ?></td>
-                        <td><?= $r['namamapel']; ?></td>
-                        <td><?= $r['nilaipengetahuan']; ?></td>
-                        <td><?= $r['nilaiketerampilan']; ?></td>
-                        <td><?= $r['nilaiakhir']; ?></td>
-                        <td><?= $r['predikat']; ?></td>
-                        
-                        <td>
+                    <?php foreach ($userreseller as $r) : ?>
+                        <tr>
+                        <td><a data-toggle="modal" data-target="#datailUserModal<?php echo $r['id']; ?>"  href="#" class="btn text-info font-weight-bold "><?= $r['name']; ?> </a></td>
+                            <td><?= $r['role']; ?></td>
+                            <td><?= $r['email']; ?></td>
+                            <td><?= $r['notelpon']; ?></td>
+                            <td><?= $r['alamat']; ?></td>
+                            <td><?= date('d F Y (H:i)', $r['date_create']); ?></td>
+                            <td>
+                            <?php if($r['is_active'] == '1'){ ?>
 
-                          
-                           
-                            <a href="<?= base_url('admin/menukelasdelete/') . $r['id']; ?> " class="badge badge-danger">Delete</a>
+                        Telah Aktif
+                            <?php } ?>  
+                            <?php if($r['is_active'] == '0'){ ?>
+
+                        Belum Aktif
+                            <?php } ?> 
                         </td>
-                    </tr>
-                    <?php $i++; ?>
+
+                            <td>
+                            <?php if($r['is_active'] == '0'){ ?>
+
+                                <a href="<?= base_url('supplier/useraktif/') . $r['id']; ?> " class="badge badge-info">Aktifkan</a>
+
+                            <?php } ?> 
+
+                                
+                                <a href="<?= base_url('supplier/userdelete/') . $r['id']; ?> " class="badge badge-danger">Delete</a>
+                            </td>
+                        </tr>
+                         <!-- Modal -->
+<div class="modal fade" id="datailUserModal<?php echo $r['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h5 class="modal-title" id="editUserModalLabel">Detail Member</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                   
+
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="name" name="name" placeholder="" value="<?= $r['name']; ?>" readonly>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="notelpon">Nomor Telpon:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="notelpon" name="notelpon" placeholder="" value="<?= $r['notelpon']; ?>"readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="notelpon">Email:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="email" name="email" placeholder="" value="<?= $r['email']; ?>"readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="alamat">Alamat:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="alamat" name="alamat" placeholder="" value="<?= $r['alamat']; ?>"readonly>
+                    </div>
+                    
+                    <div class="form-group row">
+                <div class="col-sm-2">Picture</div>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="<?= base_url('assets/img/profile/') . $r['image']; ?>" class="img-thumbnail">
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                        <label for="notelpon">Role:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="email" name="email" placeholder="" value="<?= $r['role']; ?>"readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notelpon">Created at:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="dsdsd" name="dsdsd" placeholder="" value="<?= date('d F Y (H:i a)' , $r['date_create']); ?>"readonly>
+                    </div>
+                    <a href="<?= base_url('supplier/memberdetail/') . $r['id']; ?> " class="badge badge-info">Lihat Detail</a>
+                    
+
+                   
+
+
+
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button href=" "type="submit" class="btn btn-primary">Edit</button>-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
+                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -95,120 +175,3 @@
 <!-- Modal -->
 
 <!-- Modal -->
-<!--
-<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                
-                <h5 class="modal-title" id="editUserModalLabel">Masukkan Data Nilai</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('admin/userupdate/') . $r['id']; ?>" method="post">
-                 
-
-
-                <div class="modal-body">
-                    <div class="form-group" >
-                        <label for="name">Nama Lengkap:</label>
-                        <input type="text" class="form-control" id="id" name="id" placeholder="Nama Lengkap" value="<?= $r['id']; ?>" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name">Nama Mata Pelajaran:</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" value="<?= $r['name']; ?>" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="ijazah">Jurusan:</label>
-                        <input type="text" class="form-control" id="ijazah" name="ijazah" placeholder="Ijazah" value="<?= $r['ijazah']; ?>" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="notelpon">Semester:</label>
-                        <input type="text" class="form-control" id="notelpon" name="notelpon" placeholder="Nomor Telepon" value="<?= $r['notelpon']; ?>">
-                    </div>
-                   
-                   
-                
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button href=" "type="submit" class="btn btn-primary">Edit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> 
--->
-
-<div class="modal fade" id="newSubMenuModal" tabindex="-1" role="dialog" aria-labelledby="newSubMenuModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newSubMenuModalLabel">Input Data Nilai</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('guru'); ?>" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="namamapel">Nama Lengkap:</label>
-                        <select name="name" id="name" class="form-control">
-                            <?php foreach ($datasiswa as $m) : ?>
-                            <option value="<?= $m['name']; ?>"><?= $m['name']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namamapel">Kelas:</label>
-                        <select name="kelas" id="kelas" class="form-control">
-                            <?php foreach ($menukelas as $n) : ?>
-                            <option value="<?= $n['kelas']; ?>"><?= $n['kelas']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="semester">Nama Mata Pelajaran:</label>
-                        <select name="namamapel" id="namamapel" class="form-control">
-                            <?php foreach ($menumapel as $k) : ?>
-                            <option value="<?= $k['namamapel']; ?>"><?= $k['namamapel']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namamapel">Nilai Pengetahuan:</label>
-                        <input type="text" class="form-control" id="nilaipengetahuan" name="nilaipengetahuan" placeholder="">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namamapel">Nilai Keterampilan:</label>
-                        <input type="text" class="form-control" id="nilaiketerampilan" name="nilaiketerampilan" placeholder="">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namamapel">Nilai Akhir:</label>
-                        <input type="text" class="form-control" id="nilaiakhir" name="nilaiakhir" placeholder="">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="namamapel">Predikat:</label>
-                        <input type="text" class="form-control" id="predikat" name="predikat" placeholder="">
-                    </div>
-
-                    
-                    
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> 

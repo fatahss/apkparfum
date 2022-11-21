@@ -37,6 +37,7 @@
           <thead class="thead-dark">
                     <tr>
                     <th scope="col">Nomor Referensi</th>
+                    <th scope="col">Nama User</th>
                         <th scope="col">Jenis Pendapatan</th>
                         
                         <th scope="col">Jumlah Pendapatan</th>
@@ -51,6 +52,7 @@
                     <tr>
                     
                     <td><a data-toggle="modal" data-target="#detailProductModal<?php echo $r['no_referensi']; ?>"  href="#" class="btn text-info font-weight-bold "><?= $r['no_referensi']; ?></a></td>
+                    <td><?= $r['name'];  ?></td>
                     <td><?= $r['jenis_pendapatan'];  ?></td>
                         <td>Rp. <?= number_format($r['jumlah_pendapatan'],0,',',',')?></td>
                         <td><?= date('d F Y (H:i)', $r['created_at']);  ?></td>
@@ -77,6 +79,11 @@
                     <div class="form-group" >
                         <label for="name">Jenis Pendapatan :</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['jenis_pendapatan']; ?>" readonly>
+                    </div>
+
+                    <div class="form-group" >
+                        <label for="name">Nama User :</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['name']; ?>" readonly>
                     </div>
 
                     <div class="form-group">

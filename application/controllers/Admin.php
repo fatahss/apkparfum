@@ -469,8 +469,13 @@ redirect('admin/menuuser');
         $data['title'] = 'Master Parfum';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-        $data['parfum'] = $this->db->get('parfum')->result_array();
         $data['kategori'] = $this->db->get('kategori')->result_array();
+
+        $data['parfum']  = $this->db->query("SELECT parfum.id , parfum.nama_parfum , kategori.nama_kategori , parfum.deskripsi , parfum.harga_reseller , parfum.harga_distributor , parfum.harga_supplier , parfum.harga_founder , parfum.created_by , parfum.created_at
+        FROM parfum
+        INNER JOIN kategori 
+        ON parfum.kategori_id=kategori.id ")->result_array(); 
+        
 
 
         $this->form_validation->set_rules('namaparfum', 'Nama Parfum', 'required',[
@@ -801,6 +806,59 @@ public function userdetail($r)
 
     
     $data['member'] = $this->db->get_where('user', ['id' => $r])->row_array();
+
+    $user = $this->db->get_where('user',['id' => $r])->row_array();
+
+
+
+    $direct = $this->db->get_where('direct_selling_detail', ['created_by' => $user['id']] )->result_array();
+    $jumlahrow = count($direct);
+    if($jumlahrow == 0){
+      
+       $data['total'] = 0;
+    }
+    else{
+       foreach ($direct as $row)
+       {
+       $period_array[] = intval($row['qty']);
+       }
+       $data['total'] = array_sum($period_array);
+
+    }
+
+    $direct2 = $this->db->get_where('inventory', ['user_id' => $user['id']] )->result_array();
+    $jumlahrow2 = count($direct2);
+    if($jumlahrow2 == 0){
+      
+       $data['totalinv'] = 0;
+    }
+    else{
+       foreach ($direct2 as $row2)
+       {
+       $period_array2[] = intval($row2['jumlah']);
+       }
+       $data['totalinv'] = array_sum($period_array2);
+
+    }
+
+    $direct3 = $this->db->get_where('preorder_detail', ['id_requester' => $user['id']] )->result_array();
+    $jumlahrow3 = count($direct3);
+    if($jumlahrow3 == 0){
+      
+       $data['totalpo'] = 0;
+    }
+    else{
+       foreach ($direct3 as $row3)
+       {
+       $period_array3[] = intval($row['qty']);
+       }
+       $data['totalpo'] = array_sum($period_array3);
+
+    }
+       
+
+
+       $data['jumlahmember'] = $this->db->get_where('user',['upline' => $user['id']])->result_array();
     
 
 
@@ -830,8 +888,15 @@ public function inventoryuser($r)
 
 
     
-    $data['inventoryuser'] = $this->db->get_where('inventory', ['user_id' => $r])->result_array();
+    $userid = $r;
     
+    $data['inventoryuser']  = $this->db->query("SELECT inventory.product_id , parfum.nama_parfum , kategori.nama_kategori , inventory.jumlah
+    FROM inventory
+    INNER JOIN parfum 
+    INNER JOIN kategori 
+    ON inventory.product_id=parfum.id
+    AND parfum.kategori_id=kategori.id
+    WHERE user_id = $userid")->result_array();       
    
 
 
@@ -1006,14 +1071,14 @@ public function deleteinvoice($r)
 
 //==================================================================================================================//
 
-public function memberuser()
+public function memberuser($r)
 {
     $data['title'] = 'Member User';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $userreseller = $this->db->get_where('user', ['upline' => $user['id']])->row_array();
-    $data['userreseller'] = $this->db->get_where('user', ['upline' => $user['id']])->result_array();
+    $data['userreseller'] = $this->db->get_where('user', ['upline' => $r])->result_array();
 
 
     if($userreseller['is_active'] == '0'){
@@ -1064,7 +1129,12 @@ public function menupendapatan()
 
 
     
-    $data['pendapatanuser'] = $this->db->get('pendapatan')->result_array();
+
+    $data['pendapatanuser']  = $this->db->query("SELECT pendapatan.id , user.name , pendapatan.no_referensi , pendapatan.jenis_pendapatan , pendapatan.jumlah_pendapatan , pendapatan.created_at
+    FROM pendapatan
+    INNER JOIN user 
+    ON pendapatan.user_id=user.id ")->result_array();
+
     $pendapatanuser = $this->db->get('pendapatan')->result_array();
     $user = $this->db->get('user')->result_array();
 
@@ -1100,9 +1170,11 @@ public function menupengeluaran()
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     
-    $data['pendapatanuser'] = $this->db->get('pengeluaran')->result_array();
     
-   
+    $data['pendapatanuser']  = $this->db->query("SELECT pengeluaran.id , user.name , pengeluaran.no_referensi , pengeluaran.jenis_pengeluaran , pengeluaran.jumlah_pengeluaran , pengeluaran.created_at
+    FROM pengeluaran
+    INNER JOIN user 
+    ON pengeluaran.user_id=user.id ")->result_array();
 
 
         $this->load->view('templates/header', $data);

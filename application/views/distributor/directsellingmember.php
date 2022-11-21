@@ -36,7 +36,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nomor Direct Selling</th>
-                        
+                        <th scope="col">Total Produk</th>
                         <th scope="col">Total</th>
                         <th scope="col">Tanggal</th>
 
@@ -48,8 +48,8 @@
                     <?php foreach ($directsellinguser as $r) : ?>
                         <tr>
                             <td><a data-toggle="modal" data-target="#detailPoModal<?php echo $r['no_direct_selling']; ?>" href="#" class="btn text-info font-weight-bold "><?= $r['no_direct_selling']; ?></a></td>
-                           
-                            <td><?= $r['total'];  ?></td>
+                            <td><?= $r['total_product'];  ?></td>
+                            <td>Rp. <?= number_format($r['total'],0,',',',')?></td>
 
                             <td><?= date('d F Y (H:i)', $r['created_at']);  ?></td>
 
@@ -82,20 +82,24 @@
                                             </div>
 
                                             <div class="form-group">
+                                                <label for="name">Total Produk:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['total_product']; ?>" readonly>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="name">Sub Total:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['sub_total']; ?>" readonly>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($r['sub_total'],0,',',',')?>" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Ongkir:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['ongkir']; ?>" readonly>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($r['ongkir'],0,',',',')?>" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Diskon:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['diskon']; ?>" readonly>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($r['diskon'],0,',',',')?>" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="name">Total:</label>
-                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['total']; ?>" readonly>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="Rp. <?= number_format($r['total'],0,',',',')?>" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="ijazah">Created at:</label>

@@ -200,7 +200,10 @@ public function login()
                 $alamat = htmlspecialchars($this->input->post('alamat',true));
                $role = htmlspecialchars($this->input->post('role',true));
                 $upline = htmlspecialchars($this->input->post('upline',true));
-                //'jurusan' => $this->input->post('jurusan', array('kelas' => $data))
+                $dataupline = $this->db->get_where('user', ['id' => $upline])->row_array();
+
+
+                $upline_name = $dataupline['name'];
                 
                 $image = 'default.jpg';
                 $is_active = 0;
@@ -222,6 +225,7 @@ public function login()
             $this->db->set('username', $username);
             $this->db->set('password', $password);
             $this->db->set('upline', $upline);
+            $this->db->set('upline_name', $upline_name);
             $this->db->set('notelpon', $notelpon);
              $this->db->set('email', $email);
             $this->db->set('alamat', $alamat);

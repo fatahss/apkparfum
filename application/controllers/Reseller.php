@@ -521,17 +521,19 @@ public function cartreset()
             $value=$this->input->post('parfum');
             $value_pisah=explode("|",$value);
             $product=$value_pisah[0];
+            $product_id=$value_pisah[2];
             
             $jumlah=$this->input->post('jumlahparfum');
             $harga=$value_pisah[1]*$jumlah;
        
                 
-        $query = $this->db->get_where('cart', ['product' => $product , 'username' => $username] )->result_array();
+        $query = $this->db->get_where('cart', ['product_id' => $product_id , 'username' => $username] )->result_array();
         $jumlahrow = count($query);
         if($jumlahrow == 0){
             $this->db->set('nomorpo', $nomorpo);
             $this->db->set('username', $username);
             $this->db->set('product', $product);
+            $this->db->set('product_id', $product_id);
             $this->db->set('harga', $harga);
             $this->db->set('jumlah', $jumlah);
             $this->db->insert('cart');
@@ -576,6 +578,7 @@ public function cartreset()
             foreach ($cartuser as $r){
             $nomorpo1 = $r['nomorpo'];
              $product = $r['product'];
+             $product_id = $r['product_id'];
               $jumlah = $r['jumlah'];
               $harga = $r['harga'];
 
@@ -588,6 +591,7 @@ public function cartreset()
            $this->db->set('id_requester', $user['id']);
            $this->db->set('id_receiver', $user['upline']);
             $this->db->set('product', $product);
+            $this->db->set('product_id', $product_id);
             $this->db->set('qty', $jumlah);
             $this->db->set('harga', $harga);
        $this->db->insert('preorder_detail');
@@ -740,6 +744,7 @@ public function selesaikandeliveryorder($r)
 
  
    foreach ($dodetailuser as $r){
+    $product_id = $r['product_id'];
     $product = $r['product'];
      $jumlah = $r['qty'];
      
@@ -748,20 +753,21 @@ public function selesaikandeliveryorder($r)
      if($jumlahrow == 0){
         $this->db->set('user_id', $user['id']);
         $this->db->set('product', $product);
+        $this->db->set('product_id', $product_id);
         $this->db->set('jumlah', $jumlah);
      $this->db->insert('inventory');
 
      }
      if($jumlahrow == 1){
          $this->db->set('jumlah', "jumlah + $jumlah" , FALSE);
-         $this->db->where('product', $product);
+         $this->db->where('product_id', $product_id);
          $this->db->where('user_id', $user['id']);
          $this->db->update('inventory');
 
      } 
     
      $this->db->set('jumlah', "jumlah - $jumlah" , FALSE);
-         $this->db->where('product', $product);
+         $this->db->where('product_id', $product_id);
          $this->db->where('user_id', $r['id_requester']);
          $this->db->update('inventory');
 
@@ -852,9 +858,17 @@ public function inventory()
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-
+    $userid = $user['id'];
     
-    $data['inventoryuser'] = $this->db->get_where('inventory', ['user_id' => $user['id']])->result_array();
+    //$data['inventoryuser'] = $this->db->get_where('inventory', ['user_id' => $user['id']])->result_array();
+
+    $data['inventoryuser']  = $this->db->query("SELECT inventory.product_id , parfum.nama_parfum , kategori.nama_kategori , inventory.jumlah
+    FROM inventory
+    INNER JOIN parfum 
+    INNER JOIN kategori 
+    ON inventory.product_id=parfum.id
+    AND parfum.kategori_id=kategori.id
+    WHERE user_id = $userid")->result_array();
     
    
 
@@ -1005,16 +1019,18 @@ public function addcart2()
         $value=$this->input->post('parfum');
         $value_pisah=explode("|",$value);
         $product=$value_pisah[0];
+        $product_id=$value_pisah[2];
         
         $jumlah=$this->input->post('jumlahparfum');
         $no_direct_selling=$this->input->post('nomordirectselling');
         $harga=$value_pisah[1]*$jumlah;
-        $query = $this->db->get_where('cart2', ['product' => $product , 'username' => $username] )->result_array();
+        $query = $this->db->get_where('cart2', ['product_id' => $product_id , 'username' => $username] )->result_array();
         $jumlahrow = count($query);
         if($jumlahrow == 0){
             $this->db->set('no_direct_selling', $no_direct_selling);
             $this->db->set('username', $username);
             $this->db->set('product', $product);
+            $this->db->set('product_id', $product_id);
             $this->db->set('harga', $harga);
             $this->db->set('jumlah', $jumlah);
             $this->db->insert('cart2');
@@ -1116,6 +1132,13 @@ public function tambahdirectselling()
     }
     $total = array_sum($period_array);
 
+    $direct2 = $this->db->get_where('direct_selling_detail', ['no_direct_selling' => $no_direct_selling]);
+    foreach ($direct2->result_array() as $row2)
+    {
+    $period_array2[] = intval($row2['qty']);
+    }
+    $total_product = array_sum($period_array2);
+
     $ongkir=$this->input->post('ongkir');
     $diskon=$this->input->post('diskon');
     $namapembeli=$this->input->post('namapembeli');
@@ -1127,6 +1150,7 @@ public function tambahdirectselling()
        $this->db->set('sub_total', $total);
        $this->db->set('namapembeli', $namapembeli);
        $this->db->set('ongkir', $ongkir);
+       $this->db->set('total_product', $total_product);
        $this->db->set('diskon', ((($total+$ongkir)*$diskon)/100));
        $this->db->set('total', ($total+$ongkir)-(($total+$ongkir)*$diskon)/100);
        $this->db->set('created_by', $iduser);
@@ -1155,6 +1179,22 @@ public function tambahdirectselling()
          
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Direct Selling berhasil tersimpan</div>');
 
+        redirect('reseller/directselling');
+
+}
+
+//==================================================================================================================//
+
+public function deletedirectselling($r)
+{
+        $this->db->where('no_direct_selling', $r);
+        $this->db->delete('direct_selling'); 
+        $this->db->where('no_direct_selling', $r);
+        $this->db->delete('direct_selling_detail');
+        
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Direct Selling berhasil terhapus</div>');      
+  
         redirect('reseller/directselling');
 
 }

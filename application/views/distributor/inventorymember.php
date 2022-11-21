@@ -36,6 +36,7 @@
           <thead class="thead-dark">
                     <tr>
                         <th scope="col">Produk</th>
+                        <th scope="col">Kategori</th>
                         <th scope="col">Jumlah</th>
                         
 
@@ -45,8 +46,8 @@
                     <?php $i = 1; ?>
                     <?php foreach ($inventoryuser as $r) : ?>
                     <tr>
-                    <td><a data-toggle="modal" data-target="#detailProductModal<?php echo $r['id']; ?>"  href="#" class="btn text-info font-weight-bold "><?= $r['product']; ?></a></td>
-                        
+                    <td><a data-toggle="modal" data-target="#detailProductModal<?php echo $r['product_id']; ?>"  href="#" class="btn text-info font-weight-bold "><?= $r['nama_parfum']; ?></a></td>
+                    <td><?= $r['nama_kategori'];  ?></td>
                         <td><?= $r['jumlah'];  ?></td>
                         
                         
@@ -54,7 +55,7 @@
                     </tr>
 
 
-                    <div class="modal fade" id="detailProductModal<?php echo $r['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true" >
+                    <div class="modal fade" id="detailProductModal<?php echo $r['product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,19 +65,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('admin/menuparfumupdate/') . $r['id']; ?>" method="post">
                  
 
 
                 <div class="modal-body">
                     <div class="form-group" >
                         <label for="name">Aroma Parfum :</label>
-                        <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="Nomor PO" value="<?= $r['product']; ?>" readonly>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['nama_parfum']; ?>" readonly>
+                    </div>
+                    <div class="form-group" >
+                        <label for="name">Kategori :</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['nama_kategori']; ?>" readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="name">Jumlah :</label>
-                        <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="Nama Upline" value="<?= $r['jumlah']; ?>"readonly>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['jumlah']; ?>"readonly>
                     </div>
                     
                     

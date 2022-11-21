@@ -59,7 +59,7 @@
                                                         <?php foreach ($directsellinguserdetail as $r) : ?>
                                                             <tr>
                                                                 <td><?= $r['product']; ?></td>
-                                                                <td><?= $r['harga']; ?></td>
+                                                                <td>Rp. <?= number_format($r['harga'],0,',',',')?></td>
                                                                 <td><?= $r['qty']; ?></td>
 
                                                             </tr>
@@ -68,6 +68,11 @@
                                                     </tbody>
                                                 </table>
                                             </table>
+
+                                            <div class="form-group">
+                                                <label for="name">Total Produk:</label>
+                                                <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $directsellinguser['total_product']; ?>" readonly>
+                                            </div>
 
                                             <div class="form-group">
                                                 <label for="name">Sub Total:</label>

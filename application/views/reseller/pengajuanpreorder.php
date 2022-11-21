@@ -46,7 +46,7 @@ tr.yellow td{
 ;" >
                             
                             <?php foreach ($parfum as $m) : ?>
-                            <option value="<?= $m['nama_parfum']."|".$m['harga_reseller'] ?>" data-harga="<?= $m['harga_reseller']; ?>"><?= $m['nama_parfum'],'; Harga : Rp. ',number_format($m['harga_reseller'],0,',',',') ?></option>
+                            <option value="<?= $m['nama_parfum']."|".$m['harga_reseller']."|".$m['id'] ?>" data-harga="<?= $m['harga_reseller']; ?>"><?= $m['nama_parfum'],'; Harga : Rp. ',number_format($m['harga_reseller'],0,',',',') ?></option>
                             <?php endforeach; ?>
                         </select>
                         </div>
