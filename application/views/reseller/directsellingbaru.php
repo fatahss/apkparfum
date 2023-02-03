@@ -109,7 +109,7 @@ tr.yellow td{
                     <?php $i = 1; ?>
                     <?php foreach ($cartuser as $r) : ?>
                     <tr>
-                        <td><?= $r['product']; ?></td>
+                        <td><?= $r['nama_parfum']; ?></td>
                         <td>Rp. <?= number_format($r['harga'],0,',',',')?></td>
                         <td><?= $r['jumlah']; ?></td>
                        

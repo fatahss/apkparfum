@@ -98,7 +98,7 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalpo ?> Produk</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-solid fa-cart-plus fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -115,7 +115,7 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total ?> Produk</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-solid fa-handshake fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -132,7 +132,7 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalinv ?> Produk</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-solid fa-wine-bottle fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -150,7 +150,7 @@
                       <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($jumlahmember) ?> Member</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-solid fa-users fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>

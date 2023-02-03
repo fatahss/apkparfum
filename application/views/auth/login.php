@@ -50,7 +50,6 @@
                     <div class="row">
                         
                         <div class="col-sm-12">
-                        <a class="small text-gray-900" href="<?= base_url('auth/register'); ?>"> Forgot Password</a>
                         </div>
                         </div>
                         
@@ -68,6 +67,9 @@
                                 <hr>
                                
                                 <div class="text-center">
+                                <a class="small text-gray-900" href="<?= base_url('auth/register'); ?>"> Forgot Password</a>
+                                <br></br>
+
                                 <a class="small text-gray-900">Don't have an account ?</a>
                                 <a class="small text-info" href="<?= base_url('auth/register'); ?>"> Sign up</a></br>
                                 <a class="small text-gray-900">Back to</a>
@@ -76,7 +78,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 d-none d-lg-block">
-                            <img src="<?= base_url('assets'); ?>/img/baba.jpg" width="100%">
+                            <img src="<?= base_url('assets'); ?>/img/baba.jpg" width="110%">
                         </div>
                     </div>
                 </div>

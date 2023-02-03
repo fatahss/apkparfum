@@ -27,6 +27,9 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+$jumlah_teknik = query("select * from mahasiswa where fakultas='teknik'");
+			
+
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {

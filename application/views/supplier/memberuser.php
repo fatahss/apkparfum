@@ -28,7 +28,21 @@
 
 
 
-
+          <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Memiliki</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($jumlahmember) ?> Member</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-solid fa-users fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
 
@@ -43,7 +57,7 @@
                         <th scope="col ">Nomor Telepon</th>
                         <th scope="col">Alamat</th>
                         <th scope="col">Date Created</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
 
 
 
@@ -60,14 +74,11 @@
                             <td><?= $r['alamat']; ?></td>
                             <td><?= date('d F Y (H:i)', $r['date_create']); ?></td>
                             <td>
-                            <?php if($r['is_active'] == '1'){ ?>
+                            <?php if($r['role_id'] == '5'){ ?>
 
-                        Telah Aktif
+                                <a href="<?= base_url('supplier/addmember/') . $r['id']; ?> " class="badge badge-info">Jadikan Member</a>
                             <?php } ?>  
-                            <?php if($r['is_active'] == '0'){ ?>
-
-                        Belum Aktif
-                            <?php } ?> 
+                            
                         </td>
 
                           
@@ -127,6 +138,8 @@
                         <label for="notelpon">Created at:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="dsdsd" name="dsdsd" placeholder="" value="<?= date('d F Y (H:i a)' , $r['date_create']); ?>"readonly>
                     </div>
+
+                   
                     
                     <a href="<?= base_url('supplier/inventorymember/') . $r['id']; ?> " class="badge badge-info">Lihat Inventory</a>
                     <a href="<?= base_url('supplier/directsellingmember/') . $r['id']; ?> " class="badge badge-warning">Lihat Direct Selling</a>

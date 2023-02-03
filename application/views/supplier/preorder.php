@@ -6,8 +6,8 @@
         
 
             
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('supplier/preordermembersupplier'); ?>">Preorder Member</a>
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('supplier/preorderuplinesupplier'); ?>">Preorder Upline</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('supplier/preordermembersupplier'); ?>">Purchase Order Member</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('supplier/preorderuplinesupplier'); ?>">Purchase Order Upline</a>
 
       
   

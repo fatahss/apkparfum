@@ -686,7 +686,7 @@ public function menukategoriupdate($r)
 
 public function masterpreorder()
 {
-    $data['title'] = 'Master Preorder';
+    $data['title'] = 'Master Purchase Order';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $data['preorder'] = $this->db->get('preorder')->result_array();
@@ -724,7 +724,7 @@ public function deletepo($r)
 
 public function preorderdetail($r)
 {
-    $data['title'] = 'Preorder Detail';
+    $data['title'] = 'Purchase Order Detail';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
 
@@ -850,7 +850,7 @@ public function userdetail($r)
     else{
        foreach ($direct3 as $row3)
        {
-       $period_array3[] = intval($row['qty']);
+       $period_array3[] = intval($row3['qty']);
        }
        $data['totalpo'] = array_sum($period_array3);
 
@@ -886,7 +886,22 @@ public function inventoryuser($r)
     $data['title'] = 'Inventory User';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
+    $user = $this->db->get_where('user',['id' => $r])->row_array();
 
+    $direct2 = $this->db->get_where('inventory', ['user_id' => $user['id']] )->result_array();
+    $jumlahrow2 = count($direct2);
+    if($jumlahrow2 == 0){
+      
+       $data['totalinv'] = 0;
+    }
+    else{
+       foreach ($direct2 as $row2)
+       {
+       $period_array2[] = intval($row2['jumlah']);
+       }
+       $data['totalinv'] = array_sum($period_array2);
+
+    }
     
     $userid = $r;
     
@@ -924,8 +939,36 @@ public function directsellinguser($r)
     $data['title'] = 'Direct Selling User';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $user = $this->db->get_where('user',['id' => $r])->row_array();
+    $direct = $this->db->get_where('direct_selling_detail', ['created_by' => $user['id']] )->result_array();
+    $jumlahrow = count($direct);
+    if($jumlahrow == 0){
+      
+       $data['total'] = 0;
+    }
+    else{
+       foreach ($direct as $row)
+       {
+       $period_array[] = intval($row['qty']);
+       }
+       $data['total'] = array_sum($period_array);
 
+    }
+
+    $direct = $this->db->get_where('direct_selling_detail', ['created_by' => $user['id']] )->result_array();
+    $jumlahrow = count($direct);
+    if($jumlahrow == 0){
+      
+       $data['totalhasil'] = 0;
+    }
+    else{
+       foreach ($direct as $row)
+       {
+       $period_array[] = intval($row['harga']);
+       }
+       $data['totalhasil'] = array_sum($period_array);
+
+    }
     
     $data['directsellinguser'] = $this->db->get_where('direct_selling', ['created_by' => $r])->result_array();
     
@@ -983,8 +1026,21 @@ public function pendapatanuser($r)
     $data['title'] = 'Pendapatan User';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $user = $this->db->get_where('user',['id' => $r])->row_array();
+    $direct2 = $this->db->get_where('pengeluaran', ['user_id' => $user['id']] )->result_array();
+    $jumlahrow2 = count($direct2);
+    if($jumlahrow2 == 0){
+      
+       $data['totalpengeluaran'] = 0;
+    }
+    else{
+       foreach ($direct2 as $row2)
+       {
+       $period_array2[] = intval($row2['jumlah_pengeluaran']);
+       }
+       $data['totalpengeluaran'] = array_sum($period_array2);
 
+    }
     
     $data['pendapatanuser'] = $this->db->get_where('pendapatan', ['user_id' => $r])->result_array();
     
@@ -1016,8 +1072,21 @@ public function pengeluaranuser($r)
     $data['title'] = 'Pengeluaran User';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $user = $this->db->get_where('user',['id' => $r])->row_array();
+    $direct2 = $this->db->get_where('pengeluaran', ['user_id' => $user['id']] )->result_array();
+    $jumlahrow2 = count($direct2);
+    if($jumlahrow2 == 0){
+      
+       $data['totalpengeluaran'] = 0;
+    }
+    else{
+       foreach ($direct2 as $row2)
+       {
+       $period_array2[] = intval($row2['jumlah_pengeluaran']);
+       }
+       $data['totalpengeluaran'] = array_sum($period_array2);
 
+    }
     
     $data['pendapatanuser'] = $this->db->get_where('pengeluaran', ['user_id' => $r])->result_array();
     

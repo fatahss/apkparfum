@@ -78,7 +78,7 @@
                     <a href="<?= base_url('distributor/inventorymember/') . $member['id']; ?> " class="badge badge-info">Lihat Inventory</a>
                     <a href="<?= base_url('distributor/directsellingmember/') . $member['id']; ?> " class="badge badge-warning">Lihat Direct Selling</a>
                     <a href="<?= base_url('distributor/pendapatanmember/') . $member['id']; ?> " class="badge badge-primary">Lihat Pendapatan</a></br>
-                    <a href="<?= base_url('distributor/pengeluaranmember/') . $member['id']; ?> " class="badge badge-dark">Lihat Pengeluaran</a>
+                    <a href="<?= base_url('distributor/pengeluaranmember/') . $member['id']; ?> " class="badge badge-danger">Lihat Pengeluaran</a>
 
 
 
