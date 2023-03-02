@@ -21,6 +21,10 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
+     <link href="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <link href="<?= base_url('assets/'); ?>vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet" >
+
 
 </head>
 

@@ -17,6 +17,10 @@ class Admin extends CI_Controller
 
         $data['jumlahuser'] = $this->db->get_where('user',['role_id' => 2])->result_array();
        $data['jumlahadmin'] = $this->db->get_where('user',['role_id' => 1])->result_array();
+       $data['purchaseorder'] = $this->db->get('preorder')->result_array();
+       $data['delivery_order'] = $this->db->get('delivery_order')->result_array();
+       $data['invoice'] = $this->db->get('invoice')->result_array();
+       $data['pembayaran'] = $this->db->get('pembayaran')->result_array();
        
          //$this->db->where($r, row_array());
 
@@ -289,10 +293,10 @@ class Admin extends CI_Controller
 
 
         $this->form_validation->set_rules('name', 'Nama Lengkap', 'required',[
-            'required' => 'Kategori tidak boleh kosong',
+            'required' => 'Nama Lengkap tidak boleh kosong',
             ]);
         $this->form_validation->set_rules('username', 'Username', 'required',[
-            'required' => 'Kategori tidak boleh kosong',
+            'required' => 'Username tidak boleh kosong',
             ]);
 
         if ($this->form_validation->run() ==  false) {
@@ -309,7 +313,12 @@ class Admin extends CI_Controller
                 $password = password_hash($this->input->post('password'),PASSWORD_DEFAULT);
                 $notelpon = $this->input->post('notelpon');
                 $email = $this->input->post('email');
-                $upline = $this->input->post('upline');
+
+                $value=$this->input->post('upline');
+                $value_pisah=explode("|",$value);
+                $upline=$value_pisah[0];
+                $upline_name=$value_pisah[1];
+
                 $alamat = $this->input->post('alamat');
                 $created_by =  $this->session->userdata('username');
                 $created_at = time()+17968;
@@ -327,25 +336,20 @@ class Admin extends CI_Controller
                 $role_id = 5;
                 }
 
-            $config['upload_path']          = './assets/img/profile/';
-            $config['allowed_types']        = 'pdf|jpg|png|jpeg';
-            $config['max_size']             = 5048;
+                $image = 'default.jpg';
             
 
-            $this->load->library('upload', $config);
-            $this->upload->do_upload('image');
-            $this->upload->data();
-            $namaimage = $this->upload->data('file_name');
             
 
 
            
                
-             $this->db->set('image', $namaimage);    
+             $this->db->set('image', $image);    
            $this->db->set('name', $name);
             $this->db->set('username', $username);
             $this->db->set('password', $password);
             $this->db->set('upline', $upline);
+            $this->db->set('upline_name', $upline_name);
             $this->db->set('notelpon', $notelpon);
             $this->db->set('email', $email);
             $this->db->set('alamat', $alamat);
@@ -362,6 +366,104 @@ class Admin extends CI_Controller
 
 
     }
+//==================================================================================================================//
+
+public function menuuseredit($r)
+{
+        $data['title'] = 'User Update';
+        $data['user'] = $this->db->get_where('user', ['id' => $r ])->row_array();
+        $data['dataupline']  = $this->db->query("SELECT * FROM user WHERE role_id IN (2, 3, 4)")->result_array();
+
+         
+        $this->form_validation->set_rules('name', 'Nama Lengkap', 'required',[
+            'required' => 'Nama Lengkap tidak boleh kosong',
+            ]);
+        $this->form_validation->set_rules('username', 'Username', 'required',[
+            'required' => 'Username tidak boleh kosong',
+            ]);
+
+        if ($this->form_validation->run() ==  false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('admin/useredit', $data);
+            $this->load->view('templates/footer');
+           
+        } else {
+
+            $name = $this->input->post('name');
+            $username = $this->input->post('username');
+            $notelpon = $this->input->post('notelpon');
+            $email = $this->input->post('email');
+            $alamat = $this->input->post('alamat');
+
+            $value=$this->input->post('upline');
+                $value_pisah=explode("|",$value);
+                $upline=$value_pisah[0];
+                $upline_name=$value_pisah[1];
+            
+            $role = $this->input->post('role');
+            $date_create = time()+17968;
+
+           
+
+            if($this->input->post('role') == 'Founder'){
+                $role_id = 2;
+                }
+            if($this->input->post('role') == 'Supplier'){
+            $role_id = 3;
+            }
+             if($this->input->post('role') == 'Distributor'){
+            $role_id = 4;
+            }
+            if($this->input->post('role') == 'Reseller'){
+            $role_id = 5;
+            }
+             
+
+
+
+                $upload_image = $_FILES['image']['name'];
+        if ($upload_image) {
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size']      = '2048';
+            $config['upload_path'] = './assets/img/profile/';
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('image')) {
+                $old_image = $data['user']['image'];
+                if ($old_image != 'default.jpg') {
+                    unlink(FCPATH . 'assets/img/profile/' . $old_image);
+                }
+                $new_image = $this->upload->data('file_name');
+                $this->db->set('image', $new_image);
+            } else {
+                echo $this->upload->dispay_errors();
+            }
+        }
+
+
+         $this->db->set('name', $name);
+        $this->db->set('username', $username);
+        $this->db->set('notelpon', $notelpon);
+        $this->db->set('email', $email);
+        $this->db->set('alamat', $alamat);
+        $this->db->set('upline', $upline);
+        $this->db->set('upline_name', $upline_name);
+        $this->db->set('role_id', $role_id);
+        $this->db->set('role', $role);
+        $this->db->set('date_create', $date_create);
+        $this->db->where('id', $r);
+        $this->db->update('user');
+
+       
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data user berhasil diupdate</div>');
+        redirect('admin/menuuser');
+
+    }
+        
+    }
 
 //==================================================================================================================//
 
@@ -376,14 +478,16 @@ public function userupdate($r)
             $notelpon = $this->input->post('notelpon');
             $email = $this->input->post('email');
             $alamat = $this->input->post('alamat');
-            $upline = $this->input->post('upline');
+
+            $value=$this->input->post('upline');
+                $value_pisah=explode("|",$value);
+                $upline=$value_pisah[0];
+                $upline_name=$value_pisah[1];
+            
             $role = $this->input->post('role');
             $date_create = time()+17968;
 
-            $dataupline = $this->db->get_where('user', ['id' => $upline])->row_array();
-
-
-            $upline_name = $dataupline['name'];
+           
 
             if($this->input->post('role') == 'Founder'){
                 $role_id = 2;
@@ -471,7 +575,7 @@ redirect('admin/menuuser');
 
         $data['kategori'] = $this->db->get('kategori')->result_array();
 
-        $data['parfum']  = $this->db->query("SELECT parfum.id , parfum.nama_parfum , kategori.nama_kategori , parfum.deskripsi , parfum.harga_reseller , parfum.harga_distributor , parfum.harga_supplier , parfum.harga_founder , parfum.created_by , parfum.created_at
+        $data['parfum']  = $this->db->query("SELECT parfum.id , parfum.nama_parfum , kategori.nama_kategori , parfum.deskripsi , parfum.harga_reseller , parfum.harga_distributor , parfum.harga_supplier , parfum.harga_founder ,parfum.harga_direct , parfum.created_by , parfum.created_at
         FROM parfum
         INNER JOIN kategori 
         ON parfum.kategori_id=kategori.id ")->result_array(); 
@@ -500,6 +604,8 @@ redirect('admin/menuuser');
                 $harga_reseller = $this->input->post('harga_reseller');
                 $harga_distributor = $this->input->post('harga_distributor');
                 $harga_supplier = $this->input->post('harga_supplier');
+                $harga_founder = $this->input->post('harga_founder');
+                $harga_direct = $this->input->post('harga_direct');
                 $created_by =  $this->session->userdata('username');
                 $created_at = time()+17968;
 
@@ -517,6 +623,8 @@ redirect('admin/menuuser');
             $this->db->set('harga_reseller', $harga_reseller);
             $this->db->set('harga_distributor', $harga_distributor);
             $this->db->set('harga_supplier', $harga_supplier);
+            $this->db->set('harga_founder', $harga_founder);
+            $this->db->set('harga_direct', $harga_direct);
             $this->db->set('deskripsi', $deskripsi);
            
             $this->db->set('created_by', $created_by);
@@ -561,11 +669,13 @@ public function menuparfumupdate($r)
     
         $data = [
             'nama_parfum' => $this->input->post('nama_parfum'),
-            'kategori' => $this->input->post('kategori'),
+            'kategori_id' => $this->input->post('kategori'),
             'deskripsi' => $this->input->post('deskripsi'),
             'harga_reseller' => $this->input->post('harga_reseller'),
             'harga_distributor' => $this->input->post('harga_distributor'),
             'harga_supplier' => $this->input->post('harga_supplier'),
+            'harga_founder' => $this->input->post('harga_founder'),
+            'harga_direct' => $this->input->post('harga_direct'),
             'created_by' => $this->session->userdata('username'),
             'created_at' => time()+21568
         ];
@@ -776,10 +886,14 @@ public function deliveryorderdetailuser($r)
     $data['title'] = 'Delivery Order Member Detail';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-
+    $nomordo = $r;
     
     $data['directsellinguser'] = $this->db->get_where('delivery_order', ['nomordo' => $r])->row_array();
-    $data['directsellinguserdetail'] = $this->db->get_where('delivery_order_detail', ['nomordo' => $r])->result_array();
+    $data['directsellinguserdetail']  = $this->db->query("SELECT parfum.nama_parfum , delivery_order_detail.harga , delivery_order_detail.qty
+    FROM delivery_order_detail
+    INNER JOIN parfum 
+    ON delivery_order_detail.product_id=parfum.id
+    WHERE delivery_order_detail.nomordo = $nomordo")->result_array(); 
     $data['parfum'] = $this->db->get('parfum')->result_array();
     
 
@@ -1150,28 +1264,7 @@ public function memberuser($r)
     $data['userreseller'] = $this->db->get_where('user', ['upline' => $r])->result_array();
 
 
-    if($userreseller['is_active'] == '0'){
-        $data['statususer'] = 'Belum Aktif';
-    }
-    if($userreseller['is_active'] == '1'){
-        $data['statususer'] = 'Sudah Aktif';
-    }
-
-    if($userreseller['role_id'] == '1'){
-        $data['role'] = 'Admin';
-    }
-    if($userreseller['role_id'] == '2'){
-        $data['role'] = 'Founder';
-    }
-    if($userreseller['role_id'] == '3'){
-        $data['role'] = 'Supplier';
-    }
-    if($userreseller['role_id'] == '4'){
-        $data['role'] = 'Distributor';
-    }
-    if($userreseller['role_id'] == '5'){
-        $data['role'] = 'Reseller';
-    }
+ 
 
    
 

@@ -85,7 +85,7 @@
                     <?php foreach ($directsellinguser as $r) : ?>
                         <tr>
                             <td><a data-toggle="modal" data-target="#detailPoModal<?php echo $r['no_direct_selling']; ?>" href="#" class="btn text-info font-weight-bold "><?= $r['no_direct_selling']; ?></a></td>
-                            <td> <?= $r['total']?></td>
+                            <td> <?= $r['total_product']?></td>
                             <td>Rp. <?= number_format($r['total'],0,',',',')?></td>
 
                             <td><?= date('d F Y (H:i)', $r['created_at']);  ?></td>

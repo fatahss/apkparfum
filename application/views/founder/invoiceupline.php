@@ -56,14 +56,14 @@
                             <td>
                             <?php if($r['status'] == 'Belum di bayar'){ ?>
 
-                            <a href="<?= base_url('reseller/pembayaran/') . $r['nomorinvoice']; ?> " class="badge badge-primary">Bayar</a>
+                            <a href="<?= base_url('founder/pembayaran/') . $r['nomorinvoice']; ?> " class="badge badge-primary">Bayar</a>
                             <?php } ?>  
                             
                             <?php if($r['status'] == 'Pembayaran belum ter Verifikasi'){ ?>
 
 
 
-                            <a href="<?= base_url('reseller/pembayaran/') . $r['nomorinvoice']; ?> " class="badge badge-primary">Bayar</a>
+                            <a href="<?= base_url('founder/pembayaran/') . $r['nomorinvoice']; ?> " class="badge badge-primary">Bayar</a>
                             <?php } ?> 
 
 

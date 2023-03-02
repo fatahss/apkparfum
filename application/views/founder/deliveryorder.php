@@ -6,8 +6,8 @@
         
 
             
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/deliveryordermember'); ?>">Delivery Order Member</a>
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/deliveryorderupline'); ?>">Delivery Order Upline</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/deliveryordermember'); ?>">Delivery Order dari Member</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/deliveryorderupline'); ?>">Delivery Order kepada Upline</a>
 
       
   

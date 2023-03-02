@@ -68,9 +68,10 @@
                             <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $directsellinguser['nama_downline']; ?>" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="ijazah">Tanggal:</label>
+                            <label for="ijazah">Tanggal Pengajuan:</label>
                             <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $directsellinguser['created_at']);  ?>" readonly>
                         </div>
+                        
                         <div class="form-group">
                             <label for="ijazah">Status:</label>
                             <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= $directsellinguser['status'];  ?>" readonly>

@@ -42,6 +42,7 @@
                         <th scope="col">Alamat</th>
                         <th scope="col">Foto</th>
                         <th scope="col">Role</th>
+                        <th scope="col">Pembuat Akun</th>
                         <th scope="col">Tanggal Pembuatan Akun</th>
                         <th scope="col">Action</th>
                         
@@ -62,13 +63,15 @@
                         <img src="<?= base_url('assets/img/profile/') . $r['image']; ?>" class="img-thumbnail">
                     </td>
                         <td><?= $r['role']; ?></td>
+                        <td><?= $r['created_by']; ?></td>
                         <td><?= date('d F Y (H:i a)' , $r['date_create']); ?></td>
                         
                         <td>
 
                             <a href="<?= base_url('assets/img/profile/') . $r['image']; ?>"  class="badge badge-primary">Lihat Foto</a>
 
-                         <a  href="#" data-toggle="modal" data-target="#editUserModal<?php echo $r['id']; ?>" class="badge badge-info">Edit</a>
+                         <!--<a  href="#" data-toggle="modal" data-target="#editUserModal<?php echo $r['id']; ?>" class="badge badge-info">Edit</a>-->
+                         <a  href="<?= base_url('admin/menuuseredit/') . $r['id']; ?> " class="badge badge-info">Edit</a>
                            
                             <a href="<?= base_url('admin/userdelete/') . $r['id']; ?> " class="badge badge-danger">Delete</a>
                         </td>
@@ -132,6 +135,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="notelpon">Created by:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="dsdsd" name="dsdsd" placeholder="" value="<?= $r['created_by']; ?>"readonly>
+                    </div>
+
+                    <div class="form-group">
                         <label for="notelpon">Created at:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="dsdsd" name="dsdsd" placeholder="" value="<?= date('d F Y (H:i a)' , $r['date_create']); ?>"readonly>
                     </div>
@@ -191,7 +199,7 @@
 ;" >
                             
                             <?php foreach ($dataupline as $m) : ?>
-                            <option value="<?= $m['id'] ?>" ><?= $m['name'] ?> | <?= $m['role']; ?></option>
+                            <option value="<?= $m['id']."|".$m['name']?>" ><?= $m['name'] ?> | <?= $m['role']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -230,7 +238,7 @@
 
                                 </select>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="notelpon">Created at:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="dsdsd" name="dsdsd" placeholder="" value="<?= date('d F Y (H:i a)' , $r['date_create']); ?>"readonly>
@@ -308,7 +316,7 @@
 ;" >
                             
                             <?php foreach ($dataupline as $m) : ?>
-                            <option value="<?= $m['id']?>" ><?= $m['name'] ?> | <?= $m['role'] ?></option>
+                            <option value="<?= $m['id']."|".$m['name']?>" ><?= $m['name'] ?> | <?= $m['role'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -317,21 +325,7 @@
                         <input type="text" class="form-control bg-dark text-gray-100" id="alamat" name="alamat" placeholder="" value="">
                     </div>
                     
-                    <div class="form-group row">
-                <div class="col-sm-2">Picture</div>
-                <div class="col-sm-12">
-                    <div class="row">
-                        
-                        <div class="col-sm-12">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="image" name="image">
-                                <label class="custom-file-label" for="image">Choose file</label>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+                    
 
             <div class="form-group">
                         <label for="notelpon">Role:</label>
@@ -356,7 +350,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button href=" "type="submit" class="btn btn-primary">Edit</button>
+                    <button href=" "type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
         </div>

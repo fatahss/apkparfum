@@ -1,12 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Baba Parfum</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+</style>
+
+
 </head>
 <body id="myPage">
 
@@ -28,7 +61,6 @@
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-white"><i class="fa fa-home w3-margin-right"></i>Baba Parfum</a>
   <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Product</a>
-  <a href="#pricing" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Price</a>
   <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
     
   <a href="auth/login" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Login</a>
@@ -38,9 +70,9 @@
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
     <a href="#work" class="w3-bar-item w3-button">Product</a>
-    <a href="#pricing" class="w3-bar-item w3-button">Price</a>
     <a href="#contact" class="w3-bar-item w3-button">Contact</a>
     <a href="auth/login" class="w3-bar-item w3-button">Login</a>
+    <a href="auth/register" class="w3-bar-item w3-button">Sign Up</a>
   </div>
 </div>
 
@@ -88,19 +120,72 @@
 <!-- Work Row -->
 <div class="w3-row-padding w3-padding-64 w3-theme-l1" id="work">
 
-<div class="w3-half">
-<h2>Our Product</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div>
+<h2 style="text-align:center">Product Card</h2>
 
-<div class="w3-half">
-<div class="w3-card w3-white">
-  <img src="<?= base_url('assets/'); ?>img/snow.jpg" alt="Snow" style="width:100%">
-  <div class="w3-container">
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+    <?php $i = 1; ?>
+<?php $no = $this->uri->segment('3') + 1; 
+foreach ($parfum as $r) : ?>
   
+      <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="card">
+          <div class="d-flex justify-content-between p-3">
+            <p class="lead mb-0">Today's Combo Offer</p>
+            <div
+              class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
+              style="width: 35px; height: 35px;">
+            </div>
+          </div>
+          <img src="<?= base_url('images/')  ?>bababotol.jpg"
+            class="card-img-top" alt="Laptop" />
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h5 class="text-dark mb-0"><?= $r->nama_parfum ?></h5>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+              <h5 class="text-dark mb-0">Rp. <?= number_format($r->harga_direct,0,',',',')?></h5>
+            </div>
+
+       
+
+           
+          </div>
+        </div>
+      </div>
+      <?php $i++; ?>
+ <?php endforeach; ?>
+ 
+ <div class="text-center">
+ <?php 
+	echo $this->pagination->create_links();
+	?>
   </div>
+    </div>
   </div>
-</div>
+</section>
+
+<div class="card-body">
+           <!-- Posts List -->
+           <table class="table table-borderd" id='postsList'>
+             <thead>
+              <tr>
+                <th>S.no</th>
+                <th>Title</th>
+              </tr>
+             </thead>
+             <tbody></tbody>
+           </table>
+           
+           <!-- Paginate -->
+           <div id='pagination'></div>
+      </div>
+ 
+
+
+
 
 
 
@@ -109,67 +194,7 @@
 <!-- Container -->
 
 
-<!-- Pricing Row -->
-<div class="w3-row-padding w3-center w3-padding-64" id="pricing">
-    <h2>PRICING</h2>
-    <p>Choose a pricing plan that fits your needs.</p><br>
-    <div class="w3-third w3-margin-bottom">
-      <ul class="w3-ul w3-border w3-hover-shadow">
-        <li class="w3-theme">
-          <p class="w3-xlarge">Basic</p>
-        </li>
-        <li class="w3-padding-16"><b>10GB</b> Storage</li>
-        <li class="w3-padding-16"><b>10</b> Emails</li>
-        <li class="w3-padding-16"><b>10</b> Domains</li>
-        <li class="w3-padding-16"><b>Endless</b> Support</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide"><i class="fa fa-usd"></i> 10</h2>
-          <span class="w3-opacity">per month</span>
-        </li>
-        <li class="w3-theme-l5 w3-padding-24">
-          <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Sign Up</button>
-        </li>
-      </ul>
-    </div>
 
-    <div class="w3-third w3-margin-bottom">
-      <ul class="w3-ul w3-border w3-hover-shadow">
-        <li class="w3-theme-l2">
-          <p class="w3-xlarge">Pro</p>
-        </li>
-        <li class="w3-padding-16"><b>25GB</b> Storage</li>
-        <li class="w3-padding-16"><b>25</b> Emails</li>
-        <li class="w3-padding-16"><b>25</b> Domains</li>
-        <li class="w3-padding-16"><b>Endless</b> Support</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide"><i class="fa fa-usd"></i> 25</h2>
-          <span class="w3-opacity">per month</span>
-        </li>
-        <li class="w3-theme-l5 w3-padding-24">
-          <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Sign Up</button>
-        </li>
-      </ul>
-    </div>
-
-    <div class="w3-third w3-margin-bottom">
-      <ul class="w3-ul w3-border w3-hover-shadow">
-        <li class="w3-theme">
-          <p class="w3-xlarge">Premium</p>
-        </li>
-        <li class="w3-padding-16"><b>50GB</b> Storage</li>
-        <li class="w3-padding-16"><b>50</b> Emails</li>
-        <li class="w3-padding-16"><b>50</b> Domains</li>
-        <li class="w3-padding-16"><b>Endless</b> Support</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide"><i class="fa fa-usd"></i> 50</h2>
-          <span class="w3-opacity">per month</span>
-        </li>
-        <li class="w3-theme-l5 w3-padding-24">
-          <button class="w3-button w3-teal w3-padding-large"><i class="fa fa-check"></i> Sign Up</button>
-        </li>
-      </ul>
-    </div>
-</div>
 
 <!-- Contact Container -->
 <div class="w3-container w3-padding-64 w3-theme-l5" id="contact">
@@ -247,6 +272,52 @@ function openNav() {
   }
 }
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type='text/javascript'>
+   $(document).ready(function(){
+ 
+     $('#pagination').on('click','a',function(e){
+       e.preventDefault(); 
+       var pageno = $(this).attr('data-ci-pagination-page');
+       loadPagination(pageno);
+     });
+ 
+     loadPagination(0);
+ 
+     function loadPagination(pagno){
+       $.ajax({
+         url: '/auth/loadRecord/'+pagno,
+         type: 'get',
+         dataType: 'json',
+         success: function(response){
+            $('#pagination').html(response.pagination);
+            createTable(response.result,response.row);
+         }
+       });
+     }
+ 
+     function createTable(result,sno){
+       sno = Number(sno);
+       $('#postsList tbody').empty();
+       for(index in result){
+          var id = result[index].id;
+          var title = result[index].nama_parfum;
+          var content = result[index].kategori_id;
+          content = content.substr(0, 60) + " ...";
+          var link = result[index].kategori_id;
+          sno+=1;
+ 
+          var tr = "<tr>";
+          tr += "<td>"+ sno +"</td>";
+          tr += "<td><a href='"+ link +"' target='_blank' >"+ title +"</a></td>";
+          tr += "</tr>";
+          $('#postsList tbody').append(tr);
+  
+        }
+      }
+       
+    });
+    </script>
 
 </body>
 </html>

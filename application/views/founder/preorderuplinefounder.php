@@ -43,7 +43,7 @@
                         <th scope="col">Total Harga</th>
                         <th scope="col">Total Produk</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col">Tanggal Pengajuan</th>
                         <th scope="col">Action</th>
                         
 
@@ -65,12 +65,12 @@
                         
                         <td>
                         <?php if($r['status'] == 'Belum di Proses'){ ?>
+                            <a href="" data-toggle="modal" data-target="#addDoModal<?php echo $r['nomorpo']; ?>" class="badge badge-primary">Buat DO</a>                        
 
                             <a  href="<?=  $r['id'];?>" data-toggle="modal" data-target="#editUserModal" class="badge badge-info">Edit</a>
                            
                            <a href="<?= base_url('founder/deletepoupline/') . $r['nomorpo']; ?> " class="badge badge-danger">Delete</a>
-                       <?php } ?> 
-
+                           <?php } ?>
                           
                         </td>
                     </tr>
@@ -132,6 +132,7 @@
                         <label for="ijazah">Tanggal:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $r['created_at']);  ?>"readonly>
                     </div>
+                    
                     <a href="<?= base_url('founder/preorderuplinedetail/') . $r['nomorpo']; ?> " class="badge badge-info">Lihat Detail</a>
 
                 </div>
@@ -145,7 +146,70 @@
         </div>
     </div>
 </div> 
+<!-- Modal -->
+<div class="modal fade" id="addDoModal<?php echo $r['nomorpo']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h5 class="modal-title" id="editUserModalLabel">Pembuatan Delivery Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <form action="<?= base_url('founder/pembuatando/') . $r['nomorpo']; ?>" method="post">
+                <div class="modal-body">
+                <div class="form-group" >
+                        <label for="name">Nomor DO:</label>
+                        <input type="text" class="form-control bg-dark text-gray-400" id="nomordo" name="nomordo" placeholder="" value="DO<?=$user['id']?><?= date('Ymd' , $date); ?><?= $dobaru; ?>" readonly>
+                    </div>
+                    <div class="form-group" >
+                        <label for="name">Nomor PO:</label>
+                        <input type="text" class="form-control bg-dark text-gray-400" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['nomorpo']; ?>" readonly>
+                    </div>
+                    <div class="form-group" >
+                        <label for="name">Total Harga:</label>
+                        <input type="text" class="form-control bg-dark text-gray-400" id="total_harga" name="total_harga" placeholder="" value="<?= $r['total_harga']; ?>" readonly>
+                    </div>
+                    <div class="form-group" >
+                        <label for="name">Total Produk:</label>
+                        <input type="text" class="form-control bg-dark text-gray-400" id="total_product" name="total_product" placeholder=" " value="<?= $r['total_product']; ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Jasa Paket:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="paket" name="paket" placeholder="*Jika COD maka tulis COD" value="">
+                    </div>
+                
 
+                    <div class="form-group">
+                        <label for="name">Nomor Resi:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="nomorresi" name="nomorresi" placeholder="*Kosongkan jika COD" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Harga Paket:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="hargapaket" name="hargapaket" placeholder="*Kosongkan jika COD" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Note:</label>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="note" name="note" placeholder="*Kosongkan jika tidak ada catatan" value="">
+                    </div>
+
+                </div>
+                
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button href="" type="submit" class="btn btn-primary">Ajukan</button>
+                </div>
+                </form>
+                </div>
+
+            </div>
+          
+            
+           
+            
+        </div>
 
                    
 

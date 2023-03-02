@@ -66,7 +66,7 @@ $nomorpotemp = 0;
                         
                         <td>
 
-                         <a  href="" data-toggle="modal" data-target="#editUserModal" class="badge badge-info">Edit</a>
+                         <!--<a  href="" data-toggle="modal" data-target="#editUserModal" class="badge badge-info">Edit</a>-->
                            
                             <a href="<?= base_url('admin/deletepo/') . $r['nomorpo']; ?> " class="badge badge-danger">Delete</a>
 

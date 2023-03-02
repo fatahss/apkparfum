@@ -44,22 +44,22 @@
 
                     <div class="form-group">
                             <label for="name">Nomor Invoice:</label>
-                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['nomorinvoice']; ?>" readonly>
+                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $directsellinguser['nomorinvoice']; ?>" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="name">Nomor Pembayaran:</label>
-                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['nomorpembayaran']; ?>" readonly>
+                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $directsellinguser['nomorpembayaran']; ?>" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="name">Sub Total:</label>
-                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="Rp. <?= number_format($r['total_harga'],0,',',',')?>" readonly>
+                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="Rp. <?= number_format($directsellinguser['total_harga'],0,',',',')?>" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="name">Total Produk:</label>
-                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $r['total_product']; ?>" readonly>
+                            <input type="text" class="form-control bg-dark text-gray-100" id="nomorpo" name="nomorpo" placeholder="" value="<?= $directsellinguser['total_product']; ?>" readonly>
                         </div>
 
                     <div class="form-group">
@@ -76,12 +76,12 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Harga Paket:</label>
-                        <input type="text" class="form-control" id="hargapaket" name="hargapaket" placeholder="" value="Rp. <?= number_format($directsellinguser['hargapaket'],0,',',',')?>"readonly>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="hargapaket" name="hargapaket" placeholder="" value="Rp. <?= number_format($directsellinguser['hargapaket'],0,',',',')?>"readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="name">Note:</label>
-                        <input type="text" class="form-control" id="note" name="note" placeholder="" value="<?= $directsellinguser['note']; ?>"readonly>
+                        <input type="text" class="form-control bg-dark text-gray-100" id="note" name="note" placeholder="" value="<?= $directsellinguser['note']; ?>"readonly>
                     </div>
                     <div class="form-group">
                         <label for="name" class="text-gray-900">Status:</label>

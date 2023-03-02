@@ -44,7 +44,7 @@ $nomorpotemp = 0;
                         <th scope="col">Total Produk</th>
                         <th scope="col">Nama Member</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Created at</th>
+                        <th scope="col">Tanggal Pengajuan</th>
                         <th scope="col">Action</th>
                         
 
@@ -78,7 +78,7 @@ $nomorpotemp = 0;
         <div class="modal-content">
             <div class="modal-header">
                 
-                <h5 class="modal-title text-gray-900" id="editUserModalLabel">Detail Preorder</h5>
+                <h5 class="modal-title text-gray-900" id="editUserModalLabel">Detail Delivery Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,9 +146,10 @@ $nomorpotemp = 0;
                         <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['status']; ?>"readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ijazah" class="text-gray-900">Created at:</label>
+                        <label for="ijazah" class="text-gray-900">Tanggal Pengajuan:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $r['created_at']);  ?>"readonly>
                     </div>
+                  
                     
 
                     <a href="<?= base_url('founder/deliveryordermemberdetail/') . $r['nomordo']; ?> " class="badge badge-info">Lihat Detail</a>

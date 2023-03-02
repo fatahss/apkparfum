@@ -558,7 +558,7 @@ public function preorder()
 
 public function preordermemberfounder()
 {
-    $data['title'] = 'Purchase Order Member';
+    $data['title'] = 'Purchase Order dari Member';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
@@ -613,7 +613,7 @@ $data['date'] = time();
 
 public function preorderuplinefounder()
 {
-    $data['title'] = 'Purchase Order Upline';
+    $data['title'] = 'Purchase Order kepada Upline';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
@@ -646,6 +646,16 @@ $data['pobaru'] = $max + 1;
 
 $data['date'] = time();
 
+$this->db->select_max('id', 'max');
+
+$query2 = $this->db->get_where('delivery_order', ['id_requester' => $user['id']]);
+if ($query2->num_rows() == 0) {
+  return 1;
+}
+$max2 = $query2->row()->max;
+
+$data['dobaru'] = $max2 + 1;
+
     
    
 
@@ -662,7 +672,7 @@ $data['date'] = time();
 
 public function preorderuplinedetail($r)
 {
-    $data['title'] = 'Purchase Order Upline Detail';
+    $data['title'] = 'Purchase Order kepada Upline Detail';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
 
@@ -689,7 +699,7 @@ public function preorderuplinedetail($r)
 
 public function preordermemberdetail($r)
 {
-    $data['title'] = 'Purchase Order Member Detail';
+    $data['title'] = 'Purchase Order dari Member Detail';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
 
@@ -992,6 +1002,113 @@ public function deletepoupline($r)
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Preorder berhasil terhapus</div>');      
   
         redirect('founder/preorderuplinefounder');
+
+}
+
+//==================================================================================================================//
+
+public function selesaikanpo($r)
+{
+    $status = 'Telah Sampai Tujuan';
+    $tanggal_selesai = time()+17968;
+
+    $this->db->set('status', $status);
+    $this->db->set('tanggal_selesai', $tanggal_selesai);
+        $this->db->where('nomorpo', $r);
+        $this->db->update('preorder'); 
+      
+        
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Preorder berhasil diselesaikan</div>');      
+  
+        redirect('founder/preorderuplinefounder');
+
+}
+
+//==================================================================================================================//
+
+   
+    
+
+
+
+public function pembuatando($r)
+{
+    $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $uplineuser = $this->db->get_where('user', ['id' => $user['upline']])->row_array();
+
+   $podetailuser = $this->db->get_where('preorder_detail', ['nomorpo' => $r])->result_array();
+
+   $nomorpo = $this->input->post('nomorpo');
+     $nomordo = $this->input->post('nomordo');
+     $total_harga = $this->input->post('total_harga');
+     $total_product = $this->input->post('total_product');
+   foreach ($podetailuser as $r){
+    $nomorpo2 = $r['nomorpo'];
+    $product = $r['product'];
+    $product_id = $r['product_id'];
+     $jumlah = $r['qty'];
+     $harga = $r['harga'];
+     
+
+
+
+
+   
+     $this->db->set('nomordo', $nomordo);
+     $this->db->set('nomorpo', $nomorpo2);
+  $this->db->set('id_requester', $user['upline']);
+  $this->db->set('id_receiver', $user['id']);
+   $this->db->set('product', $product);
+   $this->db->set('product_id', $product_id);
+   $this->db->set('harga', $harga);
+   $this->db->set('qty', $jumlah);
+$this->db->insert('delivery_order_detail');
+
+}
+
+//$nomorpo2 = 'PO124214';
+$podariuser = $this->db->get_where('preorder', ['nomorpo' => $r['nomorpo']])->row_array();
+$namaupline = $uplineuser['name'];
+$created_at = time()+17968;
+$status = 'Sedang dalam Pengiriman';
+$paket = $this->input->post('paket');
+     $nomorresi = $this->input->post('nomorresi');
+     $hargapaket = $this->input->post('hargapaket');
+     $note = $this->input->post('note');
+
+$this->db->set('nomordo', $nomordo);
+$this->db->set('nomorpo', $nomorpo);
+$this->db->set('paket', $paket); 
+$this->db->set('nomorresi', $nomorresi);  
+$this->db->set('hargapaket', $hargapaket); 
+$this->db->set('total_harga', $total_harga);  
+$this->db->set('total_product', $total_product);
+$this->db->set('note', $note);    
+  $this->db->set('id_requester', $user['upline']);
+  $this->db->set('nama_requester', $podariuser['nama_upline']);
+  $this->db->set('nama_receiver', $podariuser['nama_downline']);
+  $this->db->set('id_receiver',$user['id']);
+  $this->db->set('created_by', $user['id']);
+  $this->db->set('created_at', $created_at);
+  $this->db->set('status', $status);
+
+  $this->db->insert('delivery_order');
+
+  $statuspo = 'Sedang dalam Pengiriman';
+  $this->db->set('status', $statuspo);
+  $this->db->set('nomordo', $nomordo);
+  $this->db->where('nomorpo', $nomorpo);
+  $this->db->update('preorder');
+
+   
+
+    
+   $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Delivery Order berhasil tersimpan</div>');
+
+   redirect('founder/preorderuplinefounder');
 
 }
 
@@ -1390,7 +1507,7 @@ public function invoice()
 
 public function invoicemember()
 {
-    $data['title'] = 'Invoice Member';
+    $data['title'] = 'Invoice untuk Member';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
@@ -1422,7 +1539,7 @@ public function invoicemember()
 
 public function invoiceupline()
 {
-    $data['title'] = 'Invoice Upline';
+    $data['title'] = 'Invoice dari Upline';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
@@ -1446,8 +1563,169 @@ public function invoiceupline()
     }
 
 //==================================================================================================================//
+//==================================================================================================================//
 
    
+    
+
+
+
+public function pembayaran($r)
+{
+    $data['title'] = 'Pembayaran Invoice';
+    $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $data['metodepembayaran'] = $this->db->get_where('metode_pembayaran', ['user_id' => $user['upline']])->result_array();
+    
+    $data['invoice'] = $this->db->get_where('invoice', ['nomorinvoice' => $r])->row_array();
+    
+   
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+   
+
+    $this->db->select_max('id', 'max');
+
+$query = $this->db->get_where('pembayaran', ['created_by' => $user['id']]);
+if ($query->num_rows() == 0) {
+  return 1;
+}
+$max = $query->row()->max;
+
+$data['pembayaranbaru'] = $max + 1;
+
+$data['date'] = time()+17968;
+    
+  
+     $this->load->view('templates/header', $data);
+     $this->load->view('templates/sidebar', $data);
+     $this->load->view('templates/topbar', $data);
+     $this->load->view('founder/pembayaran', $data);
+     $this->load->view('templates/footer');
+ 
+
+
+     
+
+        
+    }
+
+//==================================================================================================================//
+
+   
+    
+
+
+
+public function ajukanpembayaran()
+{
+    $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $upline = $this->db->get_where('user', ['id' => $user['upline']])->row_array();
+    
+
+    
+    
+   
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $nomorpembayaran = $this->input->post('nomorpembayaran');
+    $nomorinvoice = $this->input->post('nomorinvoice');
+    $nomorpo = $this->input->post('nomorpo');
+    $nomordo = $this->input->post('nomordo');
+    $total_harga = $this->input->post('total_harga');
+    $total_product = $this->input->post('total_product');
+
+    $atasnama = $this->input->post('atasnama');
+    $nominal = $this->input->post('nominal');
+    $date = time()+17968;
+
+ 
+    
+  
+
+    $this->form_validation->set_rules('atasnama', 'Nama Pengirim', 'required',[
+     'required' => 'Nama Pengirim tidak boleh kosong',
+     ]);
+    $this->form_validation->set_rules('nominal', 'Nominal Pembayaran', 'required',[
+     'required' => 'Nominal tidak boleh kosong',
+     ]);
+
+
+ if ($this->form_validation->run() == false) {
+     $this->load->view('templates/header', $data);
+     $this->load->view('templates/sidebar', $data);
+     $this->load->view('templates/topbar', $data);
+     $this->load->view('founder/pembayaran', $data);
+     $this->load->view('templates/footer');
+ } else {
+     
+
+      $config['upload_path']          = './assets/buktipembayaran/';
+     $config['allowed_types']        = 'pdf|jpg|png|jpeg';
+     $config['max_size']             = 2048;
+     
+
+     $this->load->library('upload', $config);
+     $this->upload->do_upload('buktipembayaran');
+     $this->upload->data();
+     $buktibayar = $this->upload->data('file_name');
+     $this->db->set('buktipembayaran', $buktibayar);
+     $this->db->set('atasnama', $atasnama);
+     $this->db->set('nama_requester', $user['name']);
+     $this->db->set('nama_receiver', $upline['name']);
+     $this->db->set('id_receiver', $user['upline']);
+     $this->db->set('created_by', $user['id']);
+     $this->db->set('created_at', $date);
+     $this->db->set('nominal', $nominal);
+     $this->db->set('total', $total_harga);
+     $this->db->set('total_product', $total_product);
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('nomorinvoice', $nomorinvoice);
+     $this->db->set('nomorpo', $nomorpo);
+     $this->db->set('nomordo', $nomordo);
+     $this->db->set('status', 'Pembayaran belum ter Verifikasi');
+     $this->db->insert('pembayaran');
+
+     $status = 'Pembayaran belum ter Verifikasi';
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomorinvoice', $nomorinvoice);
+     $this->db->update('invoice');
+
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomordo', $nomordo);
+     $this->db->update('delivery_order');
+
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomorpo', $nomorpo);
+     $this->db->update('preorder');
+
+     $this->db->set('user_id', $user['id']);
+       $this->db->set('no_referensi', $nomorpembayaran);  
+       $this->db->set('jenis_pengeluaran','Pembayaran Invoice');
+       $this->db->set('jumlah_pengeluaran', $nominal);
+       $this->db->set('created_at', $date);
+       $this->db->insert('pengeluaran');
+
+       
+
+     $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Pembayaran Berhasil, Silahkan hubungi ke Nomor Upline untuk Proses Verifikasi</div>');
+     redirect('founder/invoiceupline');
+
+
+     
+      
+      
+     
+ }
+         
+        
+    }
     
 
 

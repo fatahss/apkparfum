@@ -858,6 +858,117 @@ public function addcart()
 
 //==================================================================================================================//
 
+   
+    
+
+
+
+public function ajukanpembayaran()
+{
+    $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $upline = $this->db->get_where('user', ['id' => $user['upline']])->row_array();
+    
+
+    
+    
+   
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $nomorpembayaran = $this->input->post('nomorpembayaran');
+    $nomorinvoice = $this->input->post('nomorinvoice');
+    $nomorpo = $this->input->post('nomorpo');
+    $nomordo = $this->input->post('nomordo');
+    $total_harga = $this->input->post('total_harga');
+    $total_product = $this->input->post('total_product');
+
+    $atasnama = $this->input->post('atasnama');
+    $nominal = $this->input->post('nominal');
+    $date = time()+17968;
+
+ 
+    
+  
+
+    $this->form_validation->set_rules('atasnama', 'Nama Pengirim', 'required',[
+     'required' => 'Nama Pengirim tidak boleh kosong',
+     ]);
+    $this->form_validation->set_rules('nominal', 'Nominal Pembayaran', 'required',[
+     'required' => 'Nominal tidak boleh kosong',
+     ]);
+
+
+ if ($this->form_validation->run() == false) {
+     $this->load->view('templates/header', $data);
+     $this->load->view('templates/sidebar', $data);
+     $this->load->view('templates/topbar', $data);
+     $this->load->view('distributor/pembayaran', $data);
+     $this->load->view('templates/footer');
+ } else {
+     
+
+      $config['upload_path']          = './assets/buktipembayaran/';
+     $config['allowed_types']        = 'pdf|jpg|png|jpeg';
+     $config['max_size']             = 2048;
+     
+
+     $this->load->library('upload', $config);
+     $this->upload->do_upload('buktipembayaran');
+     $this->upload->data();
+     $buktibayar = $this->upload->data('file_name');
+     $this->db->set('buktipembayaran', $buktibayar);
+     $this->db->set('atasnama', $atasnama);
+     $this->db->set('nama_requester', $user['name']);
+     $this->db->set('nama_receiver', $upline['name']);
+     $this->db->set('id_receiver', $user['upline']);
+     $this->db->set('created_by', $user['id']);
+     $this->db->set('created_at', $date);
+     $this->db->set('nominal', $nominal);
+     $this->db->set('total', $total_harga);
+     $this->db->set('total_product', $total_product);
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('nomorinvoice', $nomorinvoice);
+     $this->db->set('nomorpo', $nomorpo);
+     $this->db->set('nomordo', $nomordo);
+     $this->db->set('status', 'Pembayaran belum ter Verifikasi');
+     $this->db->insert('pembayaran');
+
+     $status = 'Pembayaran belum ter Verifikasi';
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomorinvoice', $nomorinvoice);
+     $this->db->update('invoice');
+
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomordo', $nomordo);
+     $this->db->update('delivery_order');
+
+     $this->db->set('nomorpembayaran', $nomorpembayaran);
+     $this->db->set('status', $status);
+     $this->db->where('nomorpo', $nomorpo);
+     $this->db->update('preorder');
+
+   
+
+       
+
+     $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">Pembayaran Berhasil, Silahkan hubungi ke Nomor Upline untuk Proses Verifikasi</div>');
+     redirect('distributor/invoiceupline');
+
+
+     
+      
+      
+     
+ }
+         
+        
+    }
+
+//==================================================================================================================//
+
 
 
     public function ajukanpo()
@@ -1752,6 +1863,7 @@ public function tambahdirectselling()
 
         foreach ($cartuser2 as $r){
          $product_id = $r['product_id'];
+         $product = $r['product'];
           $jumlah = $r['jumlah'];
           $harga = $r['harga'];
           $no_direct_selling = $r['no_direct_selling'];
@@ -1760,6 +1872,8 @@ public function tambahdirectselling()
     $this->db->set('no_direct_selling', $no_direct_selling);    
        $this->db->set('created_by', $user['id']);
         $this->db->set('product_id', $product_id);
+        $this->db->set('product', $product);
+
         $this->db->set('qty', $jumlah);
         $this->db->set('harga', $harga);
         $this->db->set('total_harga', $harga*$jumlah);
@@ -1879,6 +1993,55 @@ public function hasilpembayaran()
         $this->load->view('templates/footer');
 
 }
+
+//==================================================================================================================//
+
+   
+    
+
+
+
+public function pembayaran($r)
+{
+    $data['title'] = 'Pembayaran Invoice';
+    $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+    $data['metodepembayaran'] = $this->db->get_where('metode_pembayaran', ['user_id' => $user['upline']])->result_array();
+    
+    $data['invoice'] = $this->db->get_where('invoice', ['nomorinvoice' => $r])->row_array();
+    
+   
+
+    $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+   
+
+    $this->db->select_max('id', 'max');
+
+$query = $this->db->get_where('pembayaran', ['created_by' => $user['id']]);
+if ($query->num_rows() == 0) {
+  return 1;
+}
+$max = $query->row()->max;
+
+$data['pembayaranbaru'] = $max + 1;
+
+$data['date'] = time()+17968;
+    
+  
+     $this->load->view('templates/header', $data);
+     $this->load->view('templates/sidebar', $data);
+     $this->load->view('templates/topbar', $data);
+     $this->load->view('distributor/pembayaran', $data);
+     $this->load->view('templates/footer');
+ 
+
+
+     
+
+        
+    }
+
 
 //==================================================================================================================//
 

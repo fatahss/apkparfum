@@ -6,8 +6,8 @@
         
 
             
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/hasilpembayaranmember'); ?>">Pembayaran Member</a>
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/hasilpembayaranupline'); ?>">Pembayaran Upline</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/hasilpembayaranmember'); ?>">Pembayaran dari Member</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/hasilpembayaranupline'); ?>">Pembayaran kepada Upline</a>
 
       
   

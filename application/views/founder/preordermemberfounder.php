@@ -44,7 +44,7 @@ $nomorpotemp = 0;
                         <th scope="col">Total Harga</th>
                         <th scope="col">Total Produk</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col">Tanggal Pengajuan</th>
                         <th scope="col">Action</th>
                         
 
@@ -61,6 +61,7 @@ $nomorpotemp = 0;
                         <td><?= $r['status'];  ?></td>
                         
                         <td><?= date('d F Y (H:i)', $r['created_at']);  ?></td>
+
                         
                         <td>
                         <?php if($r['status'] == 'Belum di Proses'){ ?>
@@ -129,9 +130,10 @@ $nomorpotemp = 0;
                         <input type="text" class="form-control bg-dark text-gray-100" id="nama_upline" name="nama_upline" placeholder="" value="<?= $r['status']; ?>"readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ijazah">Tanggal:</label>
+                        <label for="ijazah">Tanggal Pengajuan:</label>
                         <input type="text" class="form-control bg-dark text-gray-100" id="created_at" name="created_at" placeholder="" value="<?= date('d F Y (H:i)', $r['created_at']);  ?>"readonly>
                     </div>
+                 
 
                     <a href="<?= base_url('founder/preordermemberdetail/') . $r['nomorpo']; ?> " class="badge badge-info">Lihat Detail</a>
 

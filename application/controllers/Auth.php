@@ -9,6 +9,10 @@ class Auth extends CI_Controller
       
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->helper(array('url'));
+		$this->load->model('m_data');
+        $this->load->database();
+        $this->load->library('pagination');
     }
 
 //==================================================================================================================//
@@ -17,11 +21,65 @@ class Auth extends CI_Controller
     
     {
         
+        $data['title'] = 'Home';
+        $this->load->database();
+        $jumlah_data = $this->m_data->jumlah_data();
+        $this->load->library('pagination');
+		$config['base_url'] = base_url().'auth';
+		$config['total_rows'] = $jumlah_data;
+		$config['per_page'] = 3;
+		$from = $this->uri->segment(3);
+		$this->pagination->initialize($config);		
+		$data['parfum'] = $this->m_data->data($config['per_page'],$from);
+        
   
-           $this->load->view('auth/index');
-      
+        $this->load->view('templates/auth_header', $data);
+        $this->load->view('auth/index');
+        $this->load->view('templates/auth_footer');      
  
     }
+
+    public function loadRecord($rowno=0){
+ 
+        $rowperpage = 3;
+ 
+        if($rowno != 0){
+          $rowno = ($rowno-1) * $rowperpage;
+        }
+  
+        $allcount = $this->db->count_all('parfum');
+ 
+        $this->db->limit($rowperpage, $rowno);
+        $users_record = $this->db->get('parfum')->result_array();
+  
+        $config['base_url'] = base_url().'/auth/loadRecord';
+        $config['use_page_numbers'] = TRUE;
+        $config['total_rows'] = $allcount;
+        $config['per_page'] = $rowperpage;
+ 
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close']  = '<span aria-hidden="true"></span></span></li>';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close']  = '</span></li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close']  = '</span></li>';
+ 
+        $this->pagination->initialize($config);
+ 
+        $data['pagination'] = $this->pagination->create_links();
+        $data['result'] = $users_record;
+        $data['row'] = $rowno;
+ 
+        echo json_encode($data);
+  }
 //==================================================================================================================//
 
 public function idcard($r)

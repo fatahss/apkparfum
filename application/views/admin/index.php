@@ -15,7 +15,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Jumlah Preorder</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($purchaseorder); ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-solid fa-cart-plus fa-2x text-gray-300"></i>
@@ -32,7 +32,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Jumlah Delivery Order</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($delivery_order); ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-solid fa-truck fa-2x text-gray-300"></i>
@@ -49,7 +49,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Jumlah Invoice</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($invoice); ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-solid fa-file-invoice-dollar fa-2x text-gray-300"></i>
@@ -67,7 +67,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Jumlah Pembayaran</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?= count($pembayaran); ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-solid fa-money-bill fa-2x text-gray-300"></i>

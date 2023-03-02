@@ -1391,7 +1391,7 @@ public function invoice()
 
 public function pembayaran($r)
 {
-    $data['title'] = 'Pembayaran';
+    $data['title'] = 'Pembayaran Invoice';
     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
     $user = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();

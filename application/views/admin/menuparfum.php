@@ -48,6 +48,8 @@
                         <th scope="col">Harga untuk Reseller</th>
                         <th scope="col">Harga untuk Distributor</th>
                         <th scope="col">Harga untuk Supplier</th>
+                        <th scope="col">Harga untuk Founder</th>
+                        <th scope="col">Harga untuk Direct Selling</th>
                         <th scope="col">Created By</th>
                         <th scope="col">Created At</th>
                         <th scope="col">Action</th>
@@ -63,9 +65,11 @@
                     <td><?= $r['nama_parfum']; ?></td>
                         <td><?= $r['nama_kategori']; ?></td>
                         <td><?= $r['deskripsi']; ?></td>
-                        <td>Rp. <?= number_format($r['harga_reseller'],2,',','.')?></td>
-                        <td>Rp. <?= number_format($r['harga_distributor'],2,',','.')?></td>
-                        <td>Rp. <?= number_format($r['harga_supplier'],2,',','.')?></td>
+                        <td>Rp. <?= number_format($r['harga_reseller'],0,',','.')?></td>
+                        <td>Rp. <?= number_format($r['harga_distributor'],0,',','.')?></td>
+                        <td>Rp. <?= number_format($r['harga_supplier'],0,',','.')?></td>
+                        <td>Rp. <?= number_format($r['harga_founder'],0,',','.')?></td>
+                        <td>Rp. <?= number_format($r['harga_direct'],0,',','.')?></td>
                         
                         <td><?= $r['created_by']; ?></td>
                          <td><?= date('d F Y (H:i a)' , $r['created_at']); ?></td>
@@ -129,6 +133,15 @@
                     <div class="form-group">
                         <label for="notelpon" class="text-gray-900">Harga untuk Supplier:</label>
                         <input type="number" class="form-control bg-dark text-light" id="harga_supplier" name="harga_supplier" placeholder="Harga untuk Supplier" value="<?= $r['harga_supplier']; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notelpon" class="text-gray-900">Harga untuk Founder:</label>
+                        <input type="number" class="form-control bg-dark text-light" id="harga_founder" name="harga_founder" placeholder="Harga untuk Founder" value="<?= $r['harga_founder']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="notelpon" class="text-gray-900">Harga untuk Direct Selling:</label>
+                        <input type="number" class="form-control bg-dark text-light" id="harga_direct" name="harga_direct" placeholder="Harga untuk Direct Selling" value="<?= $r['harga_direct']; ?>">
                     </div>
 
                     <div class="form-group">

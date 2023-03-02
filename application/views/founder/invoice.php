@@ -6,8 +6,8 @@
         
 
             
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/invoicemember'); ?>">Invoice Member</a>
-    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/invoiceupline'); ?>">Invoice Upline</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/invoicemember'); ?>">Invoice untuk Member</a>
+    <a type="button" class="btn btn-dark btn-user btn-block" href="<?= base_url('founder/invoiceupline'); ?>">Invoice dari Upline</a>
 
       
   

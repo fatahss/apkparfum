@@ -78,7 +78,7 @@ $nomorpotemp = 0;
         <div class="modal-content">
             <div class="modal-header">
                 
-                <h5 class="modal-title text-gray-900" id="editUserModalLabel">Detail Preorder</h5>
+                <h5 class="modal-title text-gray-900" id="editUserModalLabel">Detail Delivery Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
